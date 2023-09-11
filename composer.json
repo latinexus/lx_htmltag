@@ -1,0 +1,12 @@
+{
+  "name": "latinexus/lx_htmltag",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "eric",
+      "email": "elapez@hotmail.com"
+    }
+  ]
+}
