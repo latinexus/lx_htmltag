@@ -7,7 +7,7 @@
   "keywords": ["HTML Tags","HTML wrapper","HTML simple"],
   "autoload": {
     "psr-4": {
-      "latinexus\\Html\\": "src/"
+      "Latinexus\\Html\\": "src/"
     }
   },
   "repositories": [
