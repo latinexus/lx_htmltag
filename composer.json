@@ -1,12 +1,26 @@
 {
   "name": "latinexus/lx_htmltag",
-  "description": "description",
+  "description": "HTML wrappers",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://latinex.us",
+  "keywords": ["HTML Tags","HTML wrapper","HTML simple"],
+  "autoload": {
+    "psr-4": {
+      "latinexus\\Html\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/latinexus/lx_htmltag.git"
+    }
+  ],
   "minimum-stability": "stable",
-  "license": "proprietary",
   "authors": [
     {
-      "name": "eric",
-      "email": "elapez@hotmail.com"
+      "name": "Eric larrea",
+      "email": "eric@latinex.us"
     }
   ]
 }
