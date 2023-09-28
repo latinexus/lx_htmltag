@@ -1,7 +1,7 @@
 <?php
-namespace LxBloque;
+namespace Latinexus\Html;
 
-class LxBloque
+class HtmlTag
 {
     /**
      * Constructor de la clase
