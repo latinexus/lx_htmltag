@@ -21,8 +21,8 @@ class HtmlTag
      */
     public function blk($contenido = "", array $opt = [], $envoltura = "div")
     {
-        $params = $this->params($opt);
-        return "<" . $envoltura . " " . $params . ">" . $contenido . "</" . $envoltura . ">";
+        $atributo = $this->atributos($opt);
+        return "<" . $envoltura . " " . $atributo . ">" . $contenido . "</" . $envoltura . ">";
     }
 
     /**
@@ -34,8 +34,8 @@ class HtmlTag
      */
     public function noBlk(array $opt = [], $envoltura = "input")
     {
-        $params = $this->params($opt);
-        return "<" . $envoltura . " " . $params . " />";
+        $atributo = $this->atributos($opt);
+        return "<" . $envoltura . " " . $atributo . " />";
     }
 
     /**
@@ -44,33 +44,46 @@ class HtmlTag
      * @param array $opt Atributos de la etiqueta
      * @return string
      */
-    private function params($opt)
+    private function atributos($opt)
     {
         $opcionales = ["required", "readonly", "disabled"];
         $blk = [];
 
         if (!empty($opt)) {
-            foreach ($opt as $opId => $op) {
-                if (strtolower($opId) == "id") {
-                    $blk["id"] = !empty($op) ? 'id = "' . $op . '"' : 'id = "id_' . uniqid() . '"';
-                } else {
-                    if (in_array($opId, $opcionales)) {
-                        $blk[$opId] = $opId . ' = ""';
-                    } else {
-                        $blk[$opId] = !empty($op) ? $opId . ' = "' . $op . '"' : "";
+            foreach ($opt as $opId => $op)
+            {
+                if (strtolower($opId) == "id")
+                {
+                    $blk["id"] = !empty($op) ? 'id="' . $op . '"' : 'id="id_' . uniqid() . '"';
+                }
+                else
+                {
+                    if (in_array($opId, $opcionales))
+                    {
+                        $blk[$opId] = $opId . '=""';
+                    }
+                    else
+                    {
+                        $blk[$opId] = !empty($op) ? $opId . '="' . $op . '"' : "";
                     }
                 }
             }
 
-            if (!isset($blk["id"])) {
-                $blk["id"] = 'id = "id_' . uniqid() . '"';
+            if (!isset($blk["id"]))
+            {
+                $blk["id"] = 'id="id_' . uniqid() . '"';
             }
 
             $optRetorno = implode(" ", $blk);
-        } else {
+        }
+        else
+        {
             $optRetorno = "";
         }
 
         return $optRetorno;
     }
 }
+
+
+
