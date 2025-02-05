@@ -2,7 +2,7 @@
   "name": "latinexus/lx_htmltag",
   "description": "HTML wrappers",
   "type": "library",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "homepage": "https://latinex.us",
   "keywords": ["HTML Tags","HTML wrapper","HTML simple"],
   "autoload": {
