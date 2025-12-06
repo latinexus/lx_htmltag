@@ -1,89 +1,68 @@
 <?php
+declare(strict_types=1);
+
 namespace Latinexus\Html;
 
 class HtmlTag
 {
-    /**
-     * Constructor de la clase
-     */
     public function __construct()
     {
-        // Puedes realizar cualquier inicialización necesaria aquí
     }
 
-    /**
-     * Genera una etiqueta HTML con apertura y cierre
-     *
-     * @param string $contenido Contenido dentro de la etiqueta
-     * @param array $opt Atributos de la etiqueta
-     * @param string $envoltura Nombre de la etiqueta
-     * @return string
-     */
-    public function blk($contenido = "", array $opt = [], $envoltura = "div")
+    public function blk(string $contenido = "", array $opt = [], string $envoltura = "div"): string
     {
         $atributo = $this->atributos($opt);
-        return "<" . $envoltura . " " . $atributo . ">" . $contenido . "</" . $envoltura . ">";
+        $attrStr = $atributo !== "" ? ' ' . $atributo : '';
+        return "<{$envoltura}{$attrStr}>{$contenido}</{$envoltura}>";
     }
 
-    /**
-     * Genera una etiqueta HTML de autocierre
-     *
-     * @param array $opt Atributos de la etiqueta
-     * @param string $envoltura Nombre de la etiqueta
-     * @return string
-     */
-    public function noBlk(array $opt = [], $envoltura = "input")
+    public function noBlk(array $opt = [], string $envoltura = "input"): string
     {
         $atributo = $this->atributos($opt);
-        return "<" . $envoltura . " " . $atributo . " />";
+        $attrStr = $atributo !== "" ? ' ' . $atributo : '';
+        return "<{$envoltura}{$attrStr} />";
     }
 
-    /**
-     * Genera los atributos de la etiqueta HTML
-     *
-     * @param array $opt Atributos de la etiqueta
-     * @return string
-     */
-    private function atributos($opt)
+    private function atributos(array $opt): string
     {
         $opcionales = ["required", "readonly", "disabled"];
         $blk = [];
+        $hasId = false;
 
-        if (!empty($opt)) {
-            foreach ($opt as $opId => $op)
-            {
-                if (strtolower($opId) == "id")
-                {
-                    $blk["id"] = !empty($op) ? 'id="' . $op . '"' : 'id="id_' . uniqid() . '"';
+        foreach ($opt as $opId => $op) {
+            $key = strtolower((string)$opId);
+
+            if ($key === "id") {
+                $val = (string)$op;
+                if ($val === "") {
+                    $val = 'id_' . uniqid();
                 }
-                else
-                {
-                    if (in_array($opId, $opcionales))
-                    {
-                        $blk[$opId] = $opId . '=""';
-                    }
-                    else
-                    {
-                        $blk[$opId] = !empty($op) ? $opId . '="' . $op . '"' : "";
-                    }
-                }
+                $blk[] = 'id="' . htmlspecialchars($val, ENT_QUOTES, 'UTF-8') . '"';
+                $hasId = true;
+                continue;
             }
 
-            if (!isset($blk["id"]))
-            {
-                $blk["id"] = 'id="id_' . uniqid() . '"';
+            if (in_array($key, $opcionales, true)) {
+                // Incluir solo si el valor es truthy
+                if ($op) {
+                    $blk[] = $key;
+                }
+                continue;
             }
 
-            $optRetorno = implode(" ", $blk);
-        }
-        else
-        {
-            $optRetorno = "";
+            // Atributos normales: omitir si están vacíos o nulos
+            if ($op === null || $op === "") {
+                continue;
+            }
+
+            $blk[] = $key . '="' . htmlspecialchars((string)$op, ENT_QUOTES, 'UTF-8') . '"';
         }
 
-        return $optRetorno;
+        if (!$hasId) {
+            $blk[] = 'id="' . 'id_' . uniqid() . '"';
+        }
+
+        return implode(" ", $blk);
     }
 }
-
-
 
